@@ -2,7 +2,7 @@ import itertools
 import re
 from collections import namedtuple
 
-from sanitize import asciize
+from .sanitize import asciize
 
 # `Match` instances holds info about the tokens and their regexes.
 # Name must be a string, and the rest are lists of strings containing
@@ -51,8 +51,9 @@ class PageScanner:
         self.matches = [compile_match_regexes(m) for m in matches]
 
         # A regex composed of set of unique breakers
+        # TODO: Put this under a function
         breakers = set()
-        for match in self.matches:
+        for match in matches:  #NOTE: this block will use original matches
             assert isinstance(match.breakers, list)
             for breaker in match.breakers:
                 breakers.add(breaker)
@@ -62,7 +63,7 @@ class PageScanner:
         # Now for the combined regex
         self.breaker = re.compile('|'.join(breakers))
 
-    def scan():
+    def scan(self):
         results = []
 
         # Read whole page to memory
@@ -79,7 +80,7 @@ class PageScanner:
 
             # Iterate over breakpoints/segments
             slices = matches_to_slices(list(breakers))
-            for s in segment_slices:
+            for s in slices:
                 segment = line[slice(*s)]
 
                 # Look for labels on each segment
