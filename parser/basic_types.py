@@ -10,18 +10,23 @@ from sanitize import asciize
 Match = namedtuple('Match', 'name labels values breakers')
 
 
-def build_match(match):
+def compile_match_regexes(match):
     """Transforms match's pseudo-regexes into single, compiled regexes.
 
     Example:
       In :  [r'Valor', r'valor', r'VALOR']  <-- match.values
       Out:  r'Valor|valor|VALOR'            <-- match.values
     """
-    # TODO
-    return match
+    new_labels = re.compile('|'.join(match.labels))
+    new_values = re.compile('|'.join(match.values))
+    new_breakers = re.compile('|'.join(match.breakers))
+
+    new_match = Match(match.name, new_labels, new_values, new_breakers)
+
+    return new_match
 
 
-def slice_matches(list_of_matches):
+def matches_to_slices(list_of_matches):
     """Gets a list of SRE_Match objects and returns a list of slices
     between their starting points.
     """
@@ -43,7 +48,7 @@ class PageScanner:
         self.page_file = page_file
         self.encoding = encoding
 
-        self.matches = [build_match(m) for m in matches]
+        self.matches = [compile_match_regexes(m) for m in matches]
 
         # A regex composed of set of unique breakers
         breakers = set()
@@ -73,7 +78,7 @@ class PageScanner:
                 continue  # move on to the next line
 
             # Iterate over breakpoints/segments
-            slices = slice_matches(list(breakers))
+            slices = matches_to_slices(list(breakers))
             for s in segment_slices:
                 segment = line[slice(*s)]
 
@@ -95,7 +100,7 @@ class PageScanner:
                     results.append(dict(
                         file=self.page_file,
                         line=line_no,
-                        cols=s
+                        cols=s,
                         label=match.name,
                         value=value,
                     ))
