@@ -1,0 +1,23 @@
+ebitda
+	+ lucro operacional (ebit)
+		+ receita liquida
+		- custo produtos vendidos
+		- despesas operacionais
+	+ depereciação (ja descontada previamente)
+	+ amortização  (ja descontada previamente)
+	+ despesa financeira liquida (ja descontada previamente)
+
+margem liquida
+	+ lucro liquido
+	/ receita bruta
+
+endividamento total
+	= passivo
+
+dívida líquida
+	+ passivo
+	/ ativo circulante
+
+roic ( =ebit*(1-%IRPJ) )
+	lucro operacional (ebit)
+	- imposto de renda
