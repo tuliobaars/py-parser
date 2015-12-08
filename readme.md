@@ -1,7 +1,9 @@
-# Zeelo
+# pdf-crawler
 
-[DEPRECATED] Architecture:
-I was thinking in create a Python script in the root folder of this project called "zeelo.py". In order to crawl all links related to the given company, the user should provide the company name to "zeelo.py". This script will call the Scrapy crawler and the crawler will do his job returning a JSON with items. Each item has a `reference` and a `link` - the first one is the complete reference that the [search engine] uses to classify it ("23/07/2014 - RI HAPPY BRINQUEDOS S.A. E SUBSIDIARIAS - pág. 49 \nEMPRESARIAL - PUBLICACOES - BALANCO", for example) and the last one is the link for the PDF.
+A more robust solution should be created in order to make this 
+available for the production environment. Currently we just have some tests to check if we can crawl [the page](http://balancos.imprensaoficial.com.br/Condiario.asp).
+
+It seems that is possible to crawl the page, but the computacional cost seems to be high.
 
 Interesting links:
 	- [About the project](https://hackpad.com/Zeelo-Apax-DF-Analyzer-8u5aC8ARMe5)
